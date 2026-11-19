@@ -1,0 +1,189 @@
+%PDF-1.4
+%FuelRouteReport
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R 11 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 5705 >>
+stream
+BT /F2 30.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 738.0 Tm (Fuel Route API) Tj ET
+BT /F1 13.0 Tf 0.350 0.390 0.440 rg 1 0 0 1 54.0 711.0 Tm (Project implementation and verification report) Tj ET
+BT /F1 9.0 Tf 0.350 0.390 0.440 rg 1 0 0 1 54.0 686.0 Tm (Report date: 19 November 2026  |  Environment: Windows, Python 3.13) Tj ET
+BT /F1 10.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 656.0 Tm (A Django 6.1 and Django REST Framework application that plans US driving routes, chooses) Tj ET
+BT /F1 10.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 641.0 Tm (cost-effective fuel stops, returns route geometry, and displays the route on a Leaflet map.) Tj ET
+BT /F1 10.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 626.0 Tm (Existing project structure was preserved. The greedy optimizer was replaced only after) Tj ET
+BT /F1 10.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 611.0 Tm (independent verification exposed a suboptimal result.) Tj ET
+BT /F2 15.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 589.0 Tm (Project scope and endpoints) Tj ET
+0.78 G 0.7 w 54.0 581.0 m 558.0 581.0 l S 0 G
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 564.0 Tm (- POST /api/route/ accepts a JSON request with start and finish, and optional) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 550.0 Tm (starting_fuel_gallons. GET /api/route/ accepts the same values as query parameters. GET) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 536.0 Tm (/api/route/map/ returns the Leaflet route page and uses the same planning service as the JSON) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 522.0 Tm (API.) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 505.0 Tm (- Inputs are validated. Missing or identical endpoints, non-US locations, geocoder misses, and) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 491.0 Tm (unroutable pairs produce clear 400 JSON errors. Upstream geocoding or routing failures return) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 477.0 Tm (clear 502/503 JSON responses rather than stack traces.) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 460.0 Tm (- The JSON payload includes start and finish points, total distance, total purchased gallons,) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 446.0 Tm (total purchase cost, ordered fuel stops, GeoJSON LineString geometry, a map URL, assumptions,) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 432.0 Tm (and timing data.) Tj ET
+BT /F2 15.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 411.0 Tm (Fuel model and optimizer) Tj ET
+0.78 G 0.7 w 54.0 403.0 m 558.0 403.0 l S 0 G
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 386.0 Tm (- Default vehicle assumptions are a 50-gallon tank, 10 mpg, 500-mile maximum range, and 25-mile) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 372.0 Tm (reserve. The reserve leaves a default 475 miles of usable travel between fuel-ups. The vehicle) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 358.0 Tm (starts with a full tank unless starting_fuel_gallons is provided \(valid input range 0-50\).) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 344.0 Tm (Starting fuel is treated as already paid; only fuel bought on the route contributes to cost.) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 327.0 Tm (- MIN_PURCHASE_GALLONS defaults to 5 and RESERVE_MILES defaults to 25; both are) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 313.0 Tm (environment-configurable. Intermediate purchases meet the minimum unless the destination is) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 299.0 Tm (within usable range or no station is reachable with current fuel and a smaller purchase is) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 285.0 Tm (needed to continue. The optimizer preserves tank capacity and reserve and rounds API money,) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 271.0 Tm (distances, and gallons to two decimals.) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 254.0 Tm (- The optimizer in routing/services/optimizer.py uses dynamic programming over station arrival) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 240.0 Tm (fuel states to minimize whole-route purchase cost, including minimum purchases, reserve, and) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 226.0 Tm (starting fuel. It uses whole-mile states when inputs align to whole miles and a conservative) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 212.0 Tm (0.01-mile grid otherwise. Equal-cost plans prefer earlier stations and then stable station) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 198.0 Tm (ordering.) Tj ET
+BT /F2 15.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 177.0 Tm (Oracle finding and fix) Tj ET
+0.78 G 0.7 w 54.0 169.0 m 558.0 169.0 l S 0 G
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 152.0 Tm (- tests/test_optimizer_oracle.py implements a separate dynamic-programming oracle and checks) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 138.0 Tm (220 fixed-seed randomized routes. It compares total costs within $0.01 and checks usable-range) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 124.0 Tm (gaps, nonnegative fuel, reserve, tank capacity, destination fuel, and total-gallon balance.) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 107.0 Tm (- The oracle exposed a greedy-planner counterexample: a 2,110-mile route with 43 gallons to) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 93.0 Tm (start, a 10-mile reserve, and a 4-gallon minimum had a greedy cost of $453.39 versus the oracle) Tj ET
+0.78 G 0.5 w 54 52 m 558 52 l S 0 G
+BT /F1 8 Tf 0.35 0.39 0.44 rg 1 0 0 1 54 36 Tm (Fuel Route API project report  |  Page 1) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 6241 >>
+stream
+BT /F2 9.0 Tf 0.350 0.390 0.440 rg 1 0 0 1 54.0 738.0 Tm (Fuel Route API - Project Report) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 710.0 Tm (optimum of $451.77. Replacing the greedy choice logic with the production dynamic program fixed) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 696.0 Tm (the suboptimality; all randomized comparisons pass.) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 679.0 Tm (A representative counterexample station set \(mile marker, price per gallon\) was: \(140, 2.28\), \(340,) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 666.0 Tm (2.96\), \(560, 3.82\), \(680, 3.69\), \(850, 3.71\), \(980, 2.78\), \(1200, 3.23\), \(1360, 4.28\), \(1480, 2.24\),) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 653.0 Tm (\(1640, 2.77\), \(1730, 3.82\), \(1950, 3.12\).) Tj ET
+BT /F2 15.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 633.0 Tm (Station data and matching) Tj ET
+0.78 G 0.7 w 54.0 625.0 m 558.0 625.0 l S 0 G
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 608.0 Tm (- The station importer filters to US rows, deduplicates on OPIS ID by retaining the lowest) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 594.0 Tm (price \(the first row wins a tie\), and replaces imported records so repeated imports are) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 580.0 Tm (idempotent. Non-US rows, including Canadian stations, are excluded.) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 563.0 Tm (- City matching is case-insensitive and normalizes St./Saint, Ft./Fort, Mt./Mount, punctuation,) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 549.0 Tm (parenthetical text, and ampersands versus "and". A difflib fuzzy fallback uses a 0.88 cutoff) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 535.0 Tm (within the same state. Unmatched city/state records are written to data/unmatched.csv.) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 518.0 Tm (Previously reported import counts: 6,080 stations retained, 620 non-US rows rejected, and 601) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 505.0 Tm (unmatched rows representing 417 unique city/state pairs. These counts are from the prior import run;) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 492.0 Tm (the final optimizer verification did not rerun station import.) Tj ET
+BT /F2 15.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 472.0 Tm (Caching, external calls, and performance) Tj ET
+0.78 G 0.7 w 54.0 464.0 m 558.0 464.0 l S 0 G
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 447.0 Tm (- Geocode results, route results, and complete route plans are cached. Cache keys normalize) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 433.0 Tm (whitespace and case. A request-scoped ContextVar counter counts actual upstream HTTP attempts,) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 419.0 Tm (including retries. X-External-Calls is added only when DEBUG=True; the counter middleware is in) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 405.0 Tm (routing/middleware.py and the counter implementation is in routing/services/external_calls.py.) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 388.0 Tm (- The station collection is loaded lazily into in-memory NumPy arrays and corridor filtering) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 374.0 Tm (uses vectorized distance calculations. INFO logs record route-planning stage timings. A) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 360.0 Tm (repeated cached API request is intended to stay below 200 ms.) Tj ET
+BT /F2 15.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 339.0 Tm (Map page) Tj ET
+0.78 G 0.7 w 54.0 331.0 m 558.0 331.0 l S 0 G
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 314.0 Tm (- The map uses OpenStreetMap tiles as the primary layer and falls back once to Esri after a) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 300.0 Tm (tile error. It converts GeoJSON [longitude, latitude] coordinates to Leaflet order, draws the) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 286.0 Tm (route, green start and red finish markers, and numbered fuel-stop markers with detail popups.) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 272.0 Tm (It fits bounds to the route, invalidates the map size after layout, and includes a responsive) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 258.0 Tm (side panel and a clickable stops table.) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 241.0 Tm (Earlier browser verification recorded 748 route coordinates in US coordinate ranges, endpoints plus 12) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 228.0 Tm (fuel-stop markers, fitted bounds, working row-to-popup interaction, and no drawing/page/console) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 215.0 Tm (errors. That browser check predates the final optimizer replacement, which now returns 13 NY-LA stops.) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 202.0 Tm (The final live verification tested the updated plan through the API; the browser was not reloaded) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 189.0 Tm (after that last optimizer change.) Tj ET
+BT /F2 15.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 169.0 Tm (Final automated verification) Tj ET
+0.78 G 0.7 w 54.0 161.0 m 558.0 161.0 l S 0 G
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 144.0 Tm (- pytest -q: 37 passed. python manage.py check: no issues. The live verifier) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 130.0 Tm (scripts/verify_api.py passed for all four routes, including fuel/reserve/range and cost) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 116.0 Tm (invariants. Each cached repeat made zero external calls and completed in 5.2-17.6 ms.) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 99.0 Tm (Live API results \(cold and cached timings are milliseconds; calls are cold/cached\):) Tj ET
+BT /F3 7.6 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 82.0 Tm (Route                 Distance   Stops    Cost    Largest gap    Cold       Cached    Calls) Tj ET
+0.78 G 0.5 w 54 52 m 558 52 l S 0 G
+BT /F1 8 Tf 0.35 0.39 0.44 rg 1 0 0 1 54 36 Tm (Fuel Route API project report  |  Page 2) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 3740 >>
+stream
+BT /F2 9.0 Tf 0.350 0.390 0.440 rg 1 0 0 1 54.0 738.0 Tm (Fuel Route API - Project Report) Tj ET
+BT /F3 7.6 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 710.0 Tm (New York-Los Angeles  2793.90    13       $707.70 392.93         10898.9    17.6      1/0) Tj ET
+BT /F3 7.6 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 697.0 Tm (Dallas-Houston         239.97     0         $0.00 239.97          1832.4     6.1      1/0) Tj ET
+BT /F3 7.6 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 684.0 Tm (Seattle-Miami         3301.48    15       $856.83 423.51          9515.9    13.9      1/0) Tj ET
+BT /F3 7.6 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 671.0 Tm (Chicago-Denver        1004.77     3       $153.88 464.61          4722.0     5.2      1/0) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 658.0 Tm (All listed maximum gaps are within the 475-mile usable range. The cold calls made one upstream request) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 54.0 645.0 Tm (each. Cold response time ranged from about 1.8 to 10.9 seconds during this run.) Tj ET
+BT /F2 15.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 625.0 Tm (Known limitations) Tj ET
+0.78 G 0.7 w 54.0 617.0 m 558.0 617.0 l S 0 G
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 600.0 Tm (- Station coordinates are city-centroid or approximate route projections, so mile markers are) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 586.0 Tm (estimates. Corridor filtering is geometric rather than based on driving detours. Public OSRM) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 572.0 Tm (and Nominatim availability and rate limits are outside the application. SQLite and the) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 558.0 Tm (local-memory cache are suitable for this single-process setup but are not shared across) Tj ET
+BT /F1 10.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 72.0 544.0 Tm (multiple server processes.) Tj ET
+BT /F2 15.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 523.0 Tm (Relevant files) Tj ET
+0.78 G 0.7 w 54.0 515.0 m 558.0 515.0 l S 0 G
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 498.0 Tm (- Optimizer: routing/services/optimizer.py) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 482.0 Tm (- Oracle: tests/test_optimizer_oracle.py) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 466.0 Tm (- Live verifier: scripts/verify_api.py) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 450.0 Tm (- Request call counter: routing/services/external_calls.py and routing/middleware.py) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 434.0 Tm (- Optimizer tests: routing/tests/test_optimizer.py) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 418.0 Tm (- Call-counter tests: routing/tests/test_external_calls.py) Tj ET
+BT /F1 9.5 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 402.0 Tm (- Project documentation: README.md) Tj ET
+BT /F2 15.0 Tf 0.100 0.250 0.440 rg 1 0 0 1 54.0 382.0 Tm (Windows PowerShell commands) Tj ET
+0.78 G 0.7 w 54.0 374.0 m 558.0 374.0 l S 0 G
+BT /F3 9.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 357.0 Tm (.\\.venv\\Scripts\\Activate.ps1) Tj ET
+BT /F3 9.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 342.0 Tm (python manage.py check) Tj ET
+BT /F3 9.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 327.0 Tm (python manage.py migrate) Tj ET
+BT /F3 9.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 312.0 Tm (python manage.py import_stations) Tj ET
+BT /F3 9.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 297.0 Tm (pytest -q) Tj ET
+BT /F3 9.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 282.0 Tm (python manage.py runserver) Tj ET
+BT /F3 9.0 Tf 0.120 0.150 0.190 rg 1 0 0 1 62.0 267.0 Tm (In a second window: python scripts\\verify_api.py) Tj ET
+0.78 G 0.5 w 54 52 m 558 52 l S 0 G
+BT /F1 8 Tf 0.35 0.39 0.44 rg 1 0 0 1 54 36 Tm (Fuel Route API project report  |  Page 3) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Title (Fuel Route API Project Report) /Author (OpenAI) /Subject (Implementation and verification report) >>
+endobj
+xref
+0 13
+0000000000 65535 f 
+0000000026 00000 n 
+0000000075 00000 n 
+0000000145 00000 n 
+0000000242 00000 n 
+0000000344 00000 n 
+0000000439 00000 n 
+0000006196 00000 n 
+0000006342 00000 n 
+0000012635 00000 n 
+0000012781 00000 n 
+0000016574 00000 n 
+0000016722 00000 n 
+trailer
+<< /Size 13 /Root 1 0 R /Info 12 0 R >>
+startxref
+16850
+%%EOF
