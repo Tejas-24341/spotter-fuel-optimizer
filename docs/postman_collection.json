@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "Fuel Route API",
+    "description": "Sample requests for the Django fuel-route API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Short trip (Dallas TX to Houston TX)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": \"Dallas, TX\",\n  \"finish\": \"Houston, TX\"\n}"
+        },
+        "url": "{{base_url}}/api/route/",
+        "description": "Under one tank — expect zero fuel stops and $0 incremental cost."
+      }
+    },
+    {
+      "name": "Cross-country (New York NY to Los Angeles CA)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": \"New York, NY\",\n  \"finish\": \"Los Angeles, CA\"\n}"
+        },
+        "url": "{{base_url}}/api/route/",
+        "description": "Long route requiring multiple fuel stops."
+      }
+    },
+    {
+      "name": "Partial starting fuel (starting_fuel_gallons=10)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": \"New York, NY\",\n  \"finish\": \"Los Angeles, CA\",\n  \"starting_fuel_gallons\": 10\n}"
+        },
+        "url": "{{base_url}}/api/route/",
+        "description": "Starts with 10 gallons; first stop must be within 100 miles."
+      }
+    },
+    {
+      "name": "Invalid input (missing finish)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": \"Chicago, IL\"\n}"
+        },
+        "url": "{{base_url}}/api/route/",
+        "description": "Expect HTTP 400 with field validation errors."
+      }
+    },
+    {
+      "name": "Non-US (Toronto Canada to Houston TX)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": \"Toronto, Canada\",\n  \"finish\": \"Houston, TX\"\n}"
+        },
+        "url": "{{base_url}}/api/route/",
+        "description": "Expect HTTP 400 JSON — location not in the USA."
+      }
+    }
+  ]
+}

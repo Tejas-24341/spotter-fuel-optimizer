@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "Fuel Route API",
+    "description": "Sample requests for the Django fuel-route take-home API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Short trip (NYC to Philadelphia)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": \"New York, NY\",\n  \"finish\": \"Philadelphia, PA\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/route/",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "route", ""]
+        },
+        "description": "Route under 500 miles — expect zero fuel stops and $0 incremental fuel cost (full starting tank)."
+      }
+    },
+    {
+      "name": "Cross-country (New York to Los Angeles)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": \"New York, NY\",\n  \"finish\": \"Los Angeles, CA\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/route/",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "route", ""]
+        },
+        "description": "Long route requiring multiple fuel stops; returns GeoJSON route, stops, and total cost."
+      }
+    },
+    {
+      "name": "Invalid input (missing finish)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": \"Chicago, IL\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/route/",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "route", ""]
+        },
+        "description": "Expect HTTP 400 with field validation errors."
+      }
+    }
+  ]
+}
